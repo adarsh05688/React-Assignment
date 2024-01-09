@@ -6,13 +6,17 @@ export default function Search() {
   const navigate = useNavigate();
   const [sidebardata, setSidebardata] = useState({
     searchTerm: '',
-    type: 'all',
+    type: 'rent',
+    bhktype :'all',
     parking: false,
-    furnished: false,
-    offer: false,
+    gym:false ,
+    clubhouse:false,
+    park :false,
+     
     sort: 'created_at',
     order: 'desc',
   });
+ 
 
   const [loading, setLoading] = useState(false);
   const [listings, setListings] = useState([]);
@@ -22,27 +26,33 @@ export default function Search() {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get('searchTerm');
     const typeFromUrl = urlParams.get('type');
+    const bhktypeFromUrl = urlParams.get('bhktype');
     const parkingFromUrl = urlParams.get('parking');
-    const furnishedFromUrl = urlParams.get('furnished');
-    const offerFromUrl = urlParams.get('offer');
+    const gymFromUrl = urlParams.get('gym');
+    const clubhouseFromUrl = urlParams.get('clubhouse');
+    const parkFromUrl = urlParams.get('park')
     const sortFromUrl = urlParams.get('sort');
     const orderFromUrl = urlParams.get('order');
 
     if (
       searchTermFromUrl ||
       typeFromUrl ||
+      bhktypeFromUrl ||
       parkingFromUrl ||
-      furnishedFromUrl ||
-      offerFromUrl ||
+      gymFromUrl ||
+      clubhouseFromUrl ||
+      parkFromUrl ||
       sortFromUrl ||
       orderFromUrl
     ) {
       setSidebardata({
         searchTerm: searchTermFromUrl || '',
-        type: typeFromUrl || 'all',
+        type: typeFromUrl || 'rent',
+        bhktype : bhktypeFromUrl || '2bhk',
         parking: parkingFromUrl === 'true' ? true : false,
-        furnished: furnishedFromUrl === 'true' ? true : false,
-        offer: offerFromUrl === 'true' ? true : false,
+        gym: gymFromUrl === 'true' ? true : false,
+        clubhouse: clubhouseFromUrl === 'true' ? true : false,
+        park : parkFromUrl === 'true' ? true :false,
         sort: sortFromUrl || 'created_at',
         order: orderFromUrl || 'desc',
       });
@@ -68,11 +78,18 @@ export default function Search() {
 
   const handleChange = (e) => {
     if (
-      e.target.id === 'all' ||
+      e.target.id === 'lease' ||
       e.target.id === 'rent' ||
-      e.target.id === 'sale'
+      e.target.id === 'sell'
     ) {
       setSidebardata({ ...sidebardata, type: e.target.id });
+    }
+    if (
+      e.target.id === 'all' ||
+      e.target.id === '1bhk' ||
+      e.target.id === '2bhk'|| e.target.id === '3bhk'|| e.target.id ==='4bhk'
+    ) {
+      setSidebardata({ ...sidebardata, bhktype: e.target.id });
     }
 
     if (e.target.id === 'searchTerm') {
@@ -81,8 +98,8 @@ export default function Search() {
 
     if (
       e.target.id === 'parking' ||
-      e.target.id === 'furnished' ||
-      e.target.id === 'offer'
+      e.target.id === 'gym' ||
+      e.target.id === 'clubhouse'|| e.target.id === 'park'
     ) {
       setSidebardata({
         ...sidebardata,
@@ -105,10 +122,12 @@ export default function Search() {
     const urlParams = new URLSearchParams();
     urlParams.set('searchTerm', sidebardata.searchTerm);
     urlParams.set('type', sidebardata.type);
+    urlParams.set('bhktype', sidebardata.bhktype);
     urlParams.set('parking', sidebardata.parking);
-    urlParams.set('furnished', sidebardata.furnished);
-    urlParams.set('offer', sidebardata.offer);
-    urlParams.set('sort', sidebardata.sort);
+    urlParams.set('gym', sidebardata.gym);
+    urlParams.set('clubhouse', sidebardata.clubhouse);
+    urlParams.set('park', sidebardata.park);
+    urlParams.set('sort',sidebardata.sort);
     urlParams.set('order', sidebardata.order);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
@@ -133,7 +152,7 @@ export default function Search() {
         <form onSubmit={handleSubmit} className='flex flex-col gap-8'>
           <div className='flex items-center gap-2'>
             <label className='whitespace-nowrap font-semibold'>
-              Search Term:
+              Search Society:
             </label>
             <input
               type='text'
@@ -149,16 +168,6 @@ export default function Search() {
             <div className='flex gap-2'>
               <input
                 type='checkbox'
-                id='all'
-                className='w-5'
-                onChange={handleChange}
-                checked={sidebardata.type === 'all'}
-              />
-              <span>Rent & Sale</span>
-            </div>
-            <div className='flex gap-2'>
-              <input
-                type='checkbox'
                 id='rent'
                 className='w-5'
                 onChange={handleChange}
@@ -169,24 +178,80 @@ export default function Search() {
             <div className='flex gap-2'>
               <input
                 type='checkbox'
-                id='sale'
+                id='sell'
                 className='w-5'
                 onChange={handleChange}
-                checked={sidebardata.type === 'sale'}
+                checked={sidebardata.type === 'sell'}
               />
-              <span>Sale</span>
+              <span>Buy</span>
             </div>
             <div className='flex gap-2'>
               <input
                 type='checkbox'
-                id='offer'
+                id='lease'
                 className='w-5'
                 onChange={handleChange}
-                checked={sidebardata.offer}
+                checked={sidebardata.type === 'lease'}
               />
-              <span>Offer</span>
+              <span>Lease</span>
             </div>
+            
           </div>
+          <div className='flex gap-2 flex-wrap items-center'>
+            <label className='font-semibold'>BHK Type:</label>
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='all'
+                className='w-5'
+                onChange={handleChange}
+                checked={sidebardata.bhktype === 'all'}
+              />
+              <span>All</span>
+            </div>
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='1bhk'
+                className='w-5'
+                onChange={handleChange}
+                checked={sidebardata.bhktype === '1bhk'}
+              />
+              <span>1 BHK</span>
+            </div>
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='2bhk'
+                className='w-5'
+                onChange={handleChange}
+                checked={sidebardata.bhktype === '2bhk'}
+              />
+              <span>2 BHK</span>
+            </div>
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='3bhk'
+                className='w-5'
+                onChange={handleChange}
+                checked={sidebardata.bhktype === '3bhk'}
+              />
+              <span>3 BHK</span>
+            </div>
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='4bhk'
+                className='w-5'
+                onChange={handleChange}
+                checked={sidebardata.bhktype === '4bhk'}
+              />
+              <span>4 BHK</span>
+            </div>
+            
+          </div>
+           
           <div className='flex gap-2 flex-wrap items-center'>
             <label className='font-semibold'>Amenities:</label>
             <div className='flex gap-2'>
@@ -202,13 +267,35 @@ export default function Search() {
             <div className='flex gap-2'>
               <input
                 type='checkbox'
-                id='furnished'
+                id='gym'
                 className='w-5'
                 onChange={handleChange}
-                checked={sidebardata.furnished}
+                checked={sidebardata.gym}
               />
-              <span>Furnished</span>
+              <span>Gym</span>
             </div>
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='clubhouse'
+                className='w-5'
+                onChange={handleChange}
+                checked={sidebardata.clubhouse}
+              />
+              <span>Club House</span>
+            </div>
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='park'
+                className='w-5'
+                onChange={handleChange}
+                checked={sidebardata.park}
+              />
+              <span>Park</span>
+            </div>
+             
+            
           </div>
           <div className='flex items-center gap-2'>
             <label className='font-semibold'>Sort:</label>

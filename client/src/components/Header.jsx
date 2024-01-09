@@ -5,21 +5,21 @@ import { useEffect, useState } from 'react';
  
 function Header() {
   const { currentUser } = useSelector((state) => state.user);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [address, setaddress] = useState('');
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     const urlParams = new URLSearchParams(window.location.search);
-    urlParams.set('searchTerm', searchTerm);
+    urlParams.set('address', address);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   };
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    const searchTermFromUrl = urlParams.get('searchTerm');
+    const searchTermFromUrl = urlParams.get('address');
     if (searchTermFromUrl) {
-      setSearchTerm(searchTermFromUrl);
+      setaddress(searchTermFromUrl);
     }
   }, [location.search]);
   return (
@@ -37,10 +37,10 @@ function Header() {
       >
         <input
           type='text'
-          placeholder='Search...'
+          placeholder='city...'
           className='bg-transparent focus:outline-none w-24 sm:w-64'
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          value={address}
+          onChange={(e) => setaddress(e.target.value)}
         
            
         />

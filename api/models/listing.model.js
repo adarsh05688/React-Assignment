@@ -6,19 +6,39 @@ const listingSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    description: {
+     address: {
       type: String,
       required: true,
     },
-    address: {
-      type: String,
-      required: true,
+    ptype:{
+      type:String,
+      required : true,
+    },
+    facingtype:{
+      type:String,
+      required : true,
     },
     regularPrice: {
       type: Number,
       required: true,
     },
-    discountPrice: {
+    deposit: {
+      type: Number,
+      required: false,
+    },
+    bhktype:{
+      type:String,
+      required:true,
+    },
+    type: {
+      type: String,
+      required: true,
+    },
+    furnished: {
+      type: String,
+      required: true,
+    },
+    bedrooms: {
       type: Number,
       required: true,
     },
@@ -26,26 +46,62 @@ const listingSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    bedrooms: {
+    balcony:{
+      type:Number,
+      required: true
+    },
+   
+    maintenance:{
       type: Number,
       required: true,
     },
-    furnished: {
+    availableFrom:{
+      type : String,
+      required : true,
+    },
+   
+    area:{
+    type: Number,
+      required : true,
+    },
+    tenenttype:{
+      type:String,
+      required: true,
+    },
+   parking: {
       type: Boolean,
       required: true,
     },
-    parking: {
+    gym: {
       type: Boolean,
       required: true,
     },
-    type: {
-      type: String,
-      required: true,
-    },
-    offer: {
+    lift: {
       type: Boolean,
       required: true,
     },
+    park: {
+      type: Boolean,
+      required: true,
+    },
+    clubhouse: {
+      type: Boolean,
+      required: true,
+    },
+    powerbackup: {
+      type: Boolean,
+      required: true,
+    },
+    gaspipeline: {
+      type: Boolean,
+      required: true,
+    },
+    firebackup: {
+      type: Boolean,
+      required: true,
+    },
+    
+   
     imageUrls: {
       type: Array,
       required: true,

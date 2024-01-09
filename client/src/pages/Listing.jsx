@@ -13,6 +13,10 @@ import {
   FaMapMarkerAlt,
   FaParking,
   FaShare,
+  FaSun,
+  FaCalendar,
+   
+  
 } from 'react-icons/fa';
 import Contact from '../components/Contact';
 
@@ -90,13 +94,9 @@ export default function Listing() {
           )}
           <div className='flex flex-col max-w-4xl mx-auto p-3 my-7 gap-4'>
             <p className='text-2xl font-semibold'>
-              {listing.name} - ${' '}
-              {listing.offer
-                ? listing.discountPrice.toLocaleString('en-US')
-                : listing.regularPrice.toLocaleString('en-US')}
-              {listing.type === 'rent' && ' / month'}
+            {listing.name}
             </p>
-            <p className='flex items-center mt-6 gap-2 text-slate-600  text-sm'>
+            <p className='flex items-center mt-1 gap-2 text-slate-600  text-sm'>
               <FaMapMarkerAlt className='text-green-700' />
               {listing.address}
             </p>
@@ -104,29 +104,39 @@ export default function Listing() {
               <p className='bg-red-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
                 {listing.type === 'rent' ? 'For Rent' : 'For Sale'}
               </p>
-              {listing.offer && (
+              {listing.type === 'sell' && (
                 <p className='bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
-                  ${+listing.regularPrice - +listing.discountPrice} OFF
+                  Amount: ₹{listing.regularPrice}
                 </p>
               )}
+              {listing.type === 'rent' && (
+                <p className='bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
+                  Rent: {listing.regularPrice} ₹/month
+                </p>
+                
+              )}
+               
               
             </div>
             <p className='text-slate-800'>
-              <span className='font-semibold text-black'>Description - </span>
-              {listing.description}
+              <span className='font-semibold text-black'>Other Details - </span><br/>
+              <h4>Type  - {listing.type}</h4> 
+              {listing.type === 'rent' && (
+                <p>Deposit: {listing.deposit} ₹</p>
+              )} 
+              <h4>Property type  - {listing.ptype}</h4> 
+              <h4>BHk type  - {listing.bhktype}</h4> 
+              <h4>Facing type  - {listing.facingtype}</h4> 
+              <h4>Available Form   - {listing.availableFrom} </h4> 
             </p>
             <ul className='text-green-900 font-semibold text-sm flex flex-wrap items-center gap-4 sm:gap-6'>
               <li className='flex items-center gap-1 whitespace-nowrap '>
                 <FaBed className='text-lg' />
-                {listing.bedrooms > 1
-                  ? `${listing.bedrooms} beds `
-                  : `${listing.bedrooms} bed `}
+               {listing.bhktype}
               </li>
               <li className='flex items-center gap-1 whitespace-nowrap '>
-                <FaBath className='text-lg' />
-                {listing.bathrooms > 1
-                  ? `${listing.bathrooms} baths `
-                  : `${listing.bathrooms} bath `}
+                <FaSun className='text-lg' />
+                 {listing.facingtype}
               </li>
               <li className='flex items-center gap-1 whitespace-nowrap '>
                 <FaParking className='text-lg' />
@@ -134,7 +144,11 @@ export default function Listing() {
               </li>
               <li className='flex items-center gap-1 whitespace-nowrap '>
                 <FaChair className='text-lg' />
-                {listing.furnished ? 'Furnished' : 'Unfurnished'}
+                {listing.furnished}
+              </li>
+              <li className='flex items-center gap-1 whitespace-nowrap '>
+                <FaCalendar className='text-lg' />
+                {listing.area} (sqft)
               </li>
             </ul>
             {currentUser && listing.userRef !== currentUser._id && !contact && (
@@ -142,7 +156,7 @@ export default function Listing() {
                 onClick={() => setContact(true)}
                 className='bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3'
               >
-                Contact landlord
+                Contact Owner
               </button>
             )}
             {contact && <Contact listing={listing} />}

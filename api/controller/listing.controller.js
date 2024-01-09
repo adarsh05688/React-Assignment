@@ -62,34 +62,72 @@ export const deleteListing = async (req, res, next) => {
       next(error);
     }
   };
-
   export const getListings = async (req, res, next) => {
     try {
       const limit = parseInt(req.query.limit) || 9;
       const startIndex = parseInt(req.query.startIndex) || 0;
-      let offer = req.query.offer;
+      
   
-      if (offer === undefined || offer === 'false') {
-        offer = { $in: [false, true] };
-      }
+      
   
-      let furnished = req.query.furnished;
-  
-      if (furnished === undefined || furnished === 'false') {
-        furnished = { $in: [false, true] };
-      }
+       
   
       let parking = req.query.parking;
   
       if (parking === undefined || parking === 'false') {
         parking = { $in: [false, true] };
       }
-  
-      let type = req.query.type;
-  
-      if (type === undefined || type === 'all') {
-        type = { $in: ['sale', 'rent'] };
+
+      let clubhouse = req.query.clubhouse;
+      if(clubhouse === undefined || clubhouse === 'false'){
+        clubhouse = {$in: [false,true]};
       }
+
+      let gym = req.query.gym;
+      if(gym === undefined || gym === 'false'){
+        gym = {$in: [false, true]};
+      }
+       let park = req.query.park;
+       if(park === undefined || park === 'false'){
+        park = {$in:[false, true]};
+
+       }
+      let bhktype = req.query.bhktype;
+      if(bhktype === undefined || bhktype === 'all'){
+        bhktype = {$in: ['studio','1bhk','2bhk','3bhk','4bhk']}
+      }
+      if(bhktype === '1bhk'){
+        bhktype = {$in: ['1bhk']}
+      }
+      if(bhktype === '2bhk'){
+        bhktype = {$in: ['2bhk']}
+      }
+      if(bhktype === '3bhk'){
+        bhktype = {$in: ['3bhk']}
+      }
+      if(bhktype === '4bhk'){
+        bhktype = {$in: ['4bhk']}
+      }
+
+      let type= req.query.type;
+      if(type === undefined){
+        type = {$in: ['rent','sell','lease']}
+      }
+      if(type === 'rent'){
+        type = {$in: ['rent']}
+      }
+      if(type === 'sell'){
+        type = {$in: ['sell']}
+      }
+      if(type === 'lease'){
+        type = {$in: ['lease']}
+      }
+
+     
+
+
+
+     const address = req.query.address || '';
   
       const searchTerm = req.query.searchTerm || '';
   
@@ -99,10 +137,20 @@ export const deleteListing = async (req, res, next) => {
   
       const listings = await Listing.find({
         name: { $regex: searchTerm, $options: 'i' },
-        offer,
-        furnished,
-        parking,
+        address: {$regex: address, $options: 'i'},
+         
+        bhktype,
         type,
+        parking,
+        clubhouse,
+        gym,
+        park,
+
+         
+       
+         
+        
+       
       })
         .sort({ [sort]: order })
         .limit(limit)

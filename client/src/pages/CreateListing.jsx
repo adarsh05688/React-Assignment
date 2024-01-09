@@ -16,16 +16,30 @@ export default function CreateListing() {
   const [formData, setFormData] = useState({
     imageUrls: [],
     name: '',
-    description: '',
     address: '',
-    type: 'rent',
-    bedrooms: 1,
-    bathrooms: 1,
-    regularPrice: 50,
-    discountPrice: 0,
-    offer: false,
-    parking: false,
-    furnished: false,
+    ptype: '',
+    facingtype:'',
+    regularPrice:1,
+    deposit :1,
+    bhktype:'',
+    type:'',
+    furnished:'',
+    bedrooms:1,
+    bathrooms:1,
+    balcony:1,
+    maintenance :1,
+    availableFrom :'',
+    area:1,
+    tenenttype:'',
+    parking :false,
+    gym:false,
+    lift:false,
+    park:false,
+    clubhouse:false,
+    powerbackup:false,
+    gaspipeline:false,
+    firebackup:false,
+    
   });
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -93,17 +107,38 @@ export default function CreateListing() {
   };
 
   const handleChange = (e) => {
-    if (e.target.id === 'sale' || e.target.id === 'rent') {
+    if (e.target.id === '1bhk' || e.target.id === '2bhk' || e.target.id === '3bhk'|| e.target.id ==='studio'|| e.target.id === '4bhk') {
+      setFormData({
+        ...formData,
+        bhktype: e.target.id,
+      });
+    }
+    if (e.target.id === 'rent' || e.target.id === 'sell' || e.target.id === 'lease') {
       setFormData({
         ...formData,
         type: e.target.id,
       });
     }
+    if (e.target.id === 'unfurnished' || e.target.id === 'semifurnished' || e.target.id === 'fullyfurnished') {
+      setFormData({
+        ...formData,
+        furnished: e.target.id,
+      });
+    }
+    if (e.target.id === 'anyone' || e.target.id === 'bachelor' || e.target.id === 'family' || e.target.id === 'company') {
+      setFormData({
+        ...formData,
+        tenenttype: e.target.id,
+      });
+    }
+
+
+
 
     if (
-      e.target.id === 'parking' ||
-      e.target.id === 'furnished' ||
-      e.target.id === 'offer'
+      e.target.id === 'parking' || e.target.id === 'clubhouse'|| e.target.id === 'powerbackup'||
+      e.target.id === 'gym' || e.target.id === 'gaspipeline' || e.target.id === 'firebackup' ||
+      e.target.id === 'lift'|| e.target.id === 'park'
     ) {
       setFormData({
         ...formData,
@@ -158,11 +193,12 @@ export default function CreateListing() {
       <h1 className='text-3xl font-semibold text-center my-7'>
         Create a Listing
       </h1>
-      <form onSubmit={handleSubmit} className='flex flex-col sm:flex-row gap-4'>
+      <form onSubmit={handleSubmit} className='flex flex-col sm:flex-row gap-8'>
         <div className='flex flex-col gap-4 flex-1'>
+        <label for="name" class="block text-sm font-medium text-gray-700">Property Name</label>
           <input
             type='text'
-            placeholder='Name'
+            placeholder='E.g: Prestige lakeSide habitat '
             className='border p-3 rounded-lg'
             id='name'
             maxLength='62'
@@ -171,36 +207,117 @@ export default function CreateListing() {
             onChange={handleChange}
             value={formData.name}
           />
-          <textarea
-            type='text'
-            placeholder='Description'
-            className='border p-3 rounded-lg'
-            id='description'
-            required
-            onChange={handleChange}
-            value={formData.description}
-          />
+           <label for="address" class="block text-sm font-medium text-gray-700">Property Address</label>
           <input
             type='text'
-            placeholder='Address'
+            placeholder='e.g : whitefeild , Bangalore'
             className='border p-3 rounded-lg'
             id='address'
             required
             onChange={handleChange}
             value={formData.address}
           />
-          <div className='flex gap-6 flex-wrap'>
+           <label for="ptype" class="block text-sm font-medium text-gray-700">Property Type</label>
+          <input
+            type='text'
+            placeholder='e.g apartment/villa'
+            className='border p-3 rounded-lg'
+            id='ptype'
+            required
+            onChange={handleChange}
+            value={formData.ptype}
+          />
+           <label for="facingtype" class="block text-sm font-medium text-gray-700">Facing Type</label>
+          <input
+            type='text'
+            placeholder='e.g east/west'
+            className='border p-3 rounded-lg'
+            id='facingtype'
+            required
+            onChange={handleChange}
+            value={formData.facingtype}
+          />
+           <label for="regularPrice" class="block text-sm font-medium text-gray-700">Expected Amount</label>
+          <input
+             type='number'
+             id='regularPrice'
+             min='1'
+             max='1000000'
+             required
+             className='p-3 border border-gray-300 rounded-lg'
+             onChange={handleChange}
+             value={formData.regularPrice}
+          />
+           <label for="deposit" class="block text-sm font-medium text-gray-700">Deposit</label>
+          <input
+            type='number'
+            id='deposit'
+            min='1'
+            max='1000000'
+            
+            className='p-3 border border-gray-300 rounded-lg'
+            onChange={handleChange}
+            value={formData.deposit}
+          />
+
+         <label for="bhktype" class="block text-sm font-medium text-gray-700">Bhk type</label>
+          <div className='flex gap-4 flex-wrap'>
+          
             <div className='flex gap-2'>
               <input
                 type='checkbox'
-                id='sale'
+                id='studio'
                 className='w-5'
                 onChange={handleChange}
-                checked={formData.type === 'sale'}
+                checked={formData.bhktype === 'studio'}
               />
-              <span>Sell</span>
+              <span>Studio</span>
             </div>
             <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='1bhk'
+                className='w-5'
+                onChange={handleChange}
+                checked={formData.bhktype === '1bhk'}
+              />
+              <span>1 BHK</span>
+            </div>
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='2bhk'
+                className='w-5'
+                onChange={handleChange}
+                checked={formData.bhktype === '2bhk'}
+              />
+              <span>2 BHK</span>
+            </div>
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='3bhk'
+                className='w-5'
+                onChange={handleChange}
+                checked={formData.bhktype === '3bhk'}
+              />
+              <span>3 BHK</span>
+            </div>
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='4bhk'
+                className='w-5'
+                onChange={handleChange}
+                checked={formData.bhktype === '4bhk'}
+              />
+              <span>4 BHK</span>
+            </div>
+              </div>
+
+              <label for="type" class="block text-sm font-medium text-gray-700">Type</label>
+              <div className='flex gap-8 flex-wrap'>
+              <div className='flex gap-2'>
               <input
                 type='checkbox'
                 id='rent'
@@ -209,40 +326,69 @@ export default function CreateListing() {
                 checked={formData.type === 'rent'}
               />
               <span>Rent</span>
-            </div>
-            <div className='flex gap-2'>
+              </div>
+              <div className='flex gap-2'>
               <input
                 type='checkbox'
-                id='parking'
+                id='sell'
                 className='w-5'
                 onChange={handleChange}
-                checked={formData.parking}
+                checked={formData.type === 'sell'}
               />
-              <span>Parking spot</span>
-            </div>
-            <div className='flex gap-2'>
+              <span>Sell</span>
+              </div>
+              <div className='flex gap-2'>
               <input
                 type='checkbox'
-                id='furnished'
+                id='lease'
                 className='w-5'
                 onChange={handleChange}
-                checked={formData.furnished}
+                checked={formData.type === 'lease'}
               />
-              <span>Furnished</span>
-            </div>
-            <div className='flex gap-2'>
+              <span>Lease</span>
+              </div>
+                
+              </div>
+              <label for="furnished" class="block text-sm font-medium text-gray-700">Furnished Type</label>
+              <div className='flex gap-3.5 flex-wrap'>
+              <div className='flex gap-2'>
               <input
                 type='checkbox'
-                id='offer'
+                id='unfurnished'
                 className='w-5'
                 onChange={handleChange}
-                checked={formData.offer}
+                checked={formData.furnished === 'unfurnished'}
               />
-              <span>Offer</span>
-            </div>
-          </div>
-          <div className='flex flex-wrap gap-6'>
+              <span>Un-Furnished</span>
+              </div>
+              <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='semifurnished'
+                className='w-5'
+                onChange={handleChange}
+                checked={formData.furnished === 'semifurnished'}
+              />
+              <span>Semi-Furnished</span>
+              </div>
+              <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='fullyfurnished'
+                className='w-5'
+                onChange={handleChange}
+                checked={formData.furnished === 'fullyfurnished'}
+              />
+              <span>Fully-Furnished</span>
+              </div>
+                
+              </div>
+              <label for="select" class="block text-sm font-medium text-gray-700">Select </label>
+
+          <div className='flex flex-wrap gap-1'>
+         
             <div className='flex items-center gap-2'>
+           
               <input
                 type='number'
                 id='bedrooms'
@@ -271,45 +417,197 @@ export default function CreateListing() {
             <div className='flex items-center gap-2'>
               <input
                 type='number'
-                id='regularPrice'
-                min='50'
-                max='10000000'
+                id='balcony'
+                min='1'
+                max='10'
                 required
                 className='p-3 border border-gray-300 rounded-lg'
                 onChange={handleChange}
-                value={formData.regularPrice}
+                value={formData.balcony}
               />
-              <div className='flex flex-col items-center'>
-                <p>Regular price</p>
-                {formData.type === 'rent' && (
-                  <span className='text-xs'>($ / month)</span>
-                )}
-              </div>
+              <p>Balcony</p>
             </div>
-            {formData.offer && (
-              <div className='flex items-center gap-2'>
-                <input
-                  type='number'
-                  id='discountPrice'
-                  min='0'
-                  max='10000000'
-                  required
-                  className='p-3 border border-gray-300 rounded-lg'
-                  onChange={handleChange}
-                  value={formData.discountPrice}
-                />
-                <div className='flex flex-col items-center'>
-                  <p>Discounted price</p>
-
-                  {formData.type === 'rent' && (
-                    <span className='text-xs'>($ / month)</span>
-                  )}
-                </div>
-              </div>
-            )}
+           
+             
           </div>
         </div>
         <div className='flex flex-col flex-1 gap-4'>
+        <label for="maintenance" class="block text-sm font-medium text-gray-700">Maintenance</label>
+        <div className='flex flex-col gap-4'>
+              <input
+                type='number'
+                id='maintenance'
+                min='1'
+                max='1000000'
+                required
+                className='p-3 border border-gray-300 rounded-lg'
+                onChange={handleChange}
+                value={formData.maintenance}
+              />
+               
+              </div>
+        <label for="availableFrom" class="block text-sm font-medium text-gray-700">Available From</label>
+        <div className='flex flex-col gap-4'>
+              <input
+                type='text'
+                id='availableFrom'
+                 placeholder='DD/MM/YYYY'
+                required
+                className='p-3 border border-gray-300 rounded-lg'
+                onChange={handleChange}
+                value={formData.availableFrom}
+              />
+               
+              </div>
+        <label for="area" class="block text-sm font-medium text-gray-700">Area(sqft)</label>
+        <div className='flex flex-col gap-4'>
+              <input
+            type='number'
+            id='area'
+            min='1'
+            max='1000000'
+            required
+            className='p-3 border border-gray-300 rounded-lg'
+            onChange={handleChange}
+            value={formData.area}
+              />
+               
+              </div>
+              <label for="bhktype" class="block text-sm font-medium text-gray-700">Tenent Preference</label>
+          <div className='flex gap-4 flex-wrap'>
+          
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='anyone'
+                className='w-5'
+                onChange={handleChange}
+                checked={formData.tenenttype === 'anyone'}
+              />
+              <span>Anyone</span>
+            </div>
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='bachelor'
+                className='w-5'
+                onChange={handleChange}
+                checked={formData.tenenttype === 'bachelor'}
+              />
+              <span>Bachelor</span>
+            </div>
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='family'
+                className='w-5'
+                onChange={handleChange}
+                checked={formData.tenenttype === 'family'}
+              />
+              <span>Family</span>
+            </div>
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='company'
+                className='w-5'
+                onChange={handleChange}
+                checked={formData.tenenttype === 'company'}
+              />
+              <span>Company</span>
+            </div>
+             
+              </div>
+              <label for="amenties" class="block text-sm font-medium text-gray-700">Amenties</label>
+          <div className='flex gap-3 flex-wrap'>
+          
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='parking'
+                className='w-5'
+                onChange={handleChange}
+                checked={formData.parking}
+              />
+              <span>Parking</span>
+            </div>
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='gym'
+                className='w-5'
+                onChange={handleChange}
+                checked={formData.gym}
+              />
+              <span>Gym</span>
+            </div>
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='clubhouse'
+                className='w-5'
+                onChange={handleChange}
+                checked={formData.clubhouse}
+              />
+              <span>Club House</span>
+            </div>
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='powerbackup'
+                className='w-5'
+                onChange={handleChange}
+                checked={formData.powerbackup}
+              />
+              <span>Power Backup</span>
+            </div>
+             
+              </div>
+          <div className='flex gap-7 flex-wrap'>
+          
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='lift'
+                className='w-5'
+                onChange={handleChange}
+                checked={formData.lift}
+              />
+              <span>Lift</span>
+            </div>
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='park'
+                className='w-5'
+                onChange={handleChange}
+                checked={formData.park}
+              />
+              <span>Park</span>
+            </div>
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='gaspipeline'
+                className='w-5'
+                onChange={handleChange}
+                checked={formData.gaspipeline}
+              />
+              <span>Gas Pipeline</span>
+            </div>
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='firebackup'
+                className='w-5'
+                onChange={handleChange}
+                checked={formData.firebackup}
+              />
+              <span>Fire Backup</span>
+            </div>
+             
+              </div>
+
           <p className='font-semibold'>
             Images:
             <span className='font-normal text-gray-600 ml-2'>
@@ -341,7 +639,7 @@ export default function CreateListing() {
             formData.imageUrls.map((url, index) => (
               <div
                 key={url}
-                className='flex justify-between p-2 border items-center'
+                className='flex justify-between p-3 border items-center'
               >
                 <img
                   src={url}

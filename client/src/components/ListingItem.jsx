@@ -1,14 +1,27 @@
 import { Link } from 'react-router-dom';
-import { MdLocationOn } from 'react-icons/md';
+import { MdLocationOn} from 'react-icons/md';
+import {
+  FaBath,
+  FaBed,
+  FaChair,
+  FaMapMarkedAlt,
+  FaMapMarkerAlt,
+  FaParking,
+  FaShare,
+  FaSun,
+  FaCalendar,
+   
+  
+} from 'react-icons/fa';
 
 export default function ListingItem({ listing }) {
   return (
-    <div className='bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[300px]'>
+    <div className='bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[270px]'>
       <Link to={`/listing/${listing._id}`}>
         <img
           src={
             listing.imageUrls[0] ||
-            'https://53.fs1.hubspotusercontent-na1.net/hub/53/hubfs/Sales_Blog/real-estate-business-compressor.jpg?width=595&height=400&name=real-estate-business-compressor.jpg'
+            'https://images.pexels.com/photos/164522/pexels-photo-164522.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
           }
           alt='listing cover'
           className='h-[320px] sm:h-[220px] w-full object-cover hover:scale-105 transition-scale duration-300'
@@ -23,28 +36,36 @@ export default function ListingItem({ listing }) {
               {listing.address}
             </p>
           </div>
-          <p className='text-sm text-gray-600 line-clamp-2'>
-            {listing.description}
-          </p>
+           
           <p className='text-slate-500 mt-2 font-semibold '>
-            $
-            {listing.offer
-              ? listing.discountPrice.toLocaleString('en-US')
-              : listing.regularPrice.toLocaleString('en-US')}
-            {listing.type === 'rent' && ' / month'}
+          {listing.type === 'rent' && (
+                <p >
+                  Rent: {listing.regularPrice} ₹/month
+                </p>
+                
+              )}
+            
           </p>
-          <div className='text-slate-700 flex gap-4'>
-            <div className='font-bold text-xs'>
-              {listing.bedrooms > 1
-                ? `${listing.bedrooms} beds `
-                : `${listing.bedrooms} bed `}
-            </div>
-            <div className='font-bold text-xs'>
-              {listing.bathrooms > 1
-                ? `${listing.bathrooms} baths `
-                : `${listing.bathrooms} bath `}
-            </div>
-          </div>
+          <p className='text-slate-500  font-semibold '>
+          {listing.type === 'sell' && (
+                <p >
+                  Price: {listing.regularPrice} ₹
+                </p>
+                
+              )}
+            
+          </p>
+
+          <div className='text-red-700 flex gap-16'>
+          <li className='flex items-center gap-1 whitespace-nowrap '>
+                <FaBed className='text-lg' />
+               {listing.bhktype}
+              </li>
+          <li className='flex items-center gap-1 whitespace-nowrap '>
+                <FaChair className='text-lg' />
+               {listing.furnished}
+              </li>
+        </div>
         </div>
       </Link>
     </div>
