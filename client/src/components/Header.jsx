@@ -2,6 +2,7 @@ import { FaSearch } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import {BsHouseDoor} from 'react-icons/bs'
  
 function Header() {
   const { currentUser } = useSelector((state) => state.user);
@@ -23,40 +24,43 @@ function Header() {
     }
   }, [location.search]);
   return (
-    <header className='bg-slate-200 shadow-md'>
-    <div className='flex justify-between items-center max-w-6xl mx-auto p-3'>
+    <header className='bg-white shadow-md overflow-hidden '>
+    <div className='flex justify-between items-center max-w-6xl mx-auto p-3 sticky'>
       <Link to='/'>
-        <h1 className='font-bold text-sm sm:text-xl flex flex-wrap'>
-          <span className='text-slate-500'>Ausumn </span>
-          <span className='text-slate-700'>Realty</span>
+        <h1 className='font-bold sm:text-lg flex flex-wrap '>
+          <span className='text-blue-800 text-2xl'>Ausumn </span>
+          <span className='text-blue-800 text-2xl'>Realty</span>
+          <BsHouseDoor className='ml-2 mt-1 size-6'/>
         </h1>
       </Link>
       <form  onSubmit={handleSubmit}
         
-        className='bg-slate-100 p-3 rounded-lg flex items-center'
+        className='rounded-lg flex  ml-20'
       >
-        <input
-          type='text'
-          placeholder='city...'
-          className='bg-transparent focus:outline-none w-24 sm:w-64'
-          value={address}
-          onChange={(e) => setaddress(e.target.value)}
+         
+         <Link
+          className=' items-end bg-green-700 text-white pl-5 pr-5 pt-2 pb-2 rounded-lg uppercase text-center hover:opacity-95'
+          to={'/create-listing'}
+        >
+          Create Listing
+        </Link>
         
-           
-        />
-        <button>
-          <FaSearch className='text-slate-600' />
-        </button>
+         
       </form>
-      <ul className='flex gap-4'>
+      <ul className='flex gap-4 items-center'>
         <Link to='/'>
-          <li className='hidden sm:inline text-slate-700 hover:underline'>
+          <li className='hidden sm:inline text-blue-900 hover:underline text-xl'>
             Home
           </li>
         </Link>
         <Link to='/about'>
-          <li className='hidden sm:inline text-slate-700 hover:underline'>
+          <li className='hidden sm:inline text-blue-900 hover:underline text-xl'>
             About
+          </li>
+        </Link>
+        <Link to='/search'>
+          <li className='hidden sm:inline text-blue-900 hover:underline text-xl'>
+            Listings
           </li>
         </Link>
         <Link to='/profile'>
